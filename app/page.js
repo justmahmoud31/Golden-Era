@@ -1,6 +1,7 @@
 import GenderFilter from "@/components/Home-Sections/GenderFilter";
 import Hero from "@/components/Home-Sections/Hero";
 import Homecategory from "@/components/Home-Sections/Homecategory";
+import Sakinah from "@/components/Home-Sections/Sakinah";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <Homecategory />
       <GenderFilter />
+      <Sakinah />
     </div>
   );
 }

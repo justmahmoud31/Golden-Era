@@ -8,6 +8,29 @@
   --color-gold: #fcc65bcc;
   --color-neon-gold: #fcc65b;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333 !important;
+  background-color: #eee;
+  padding: 20px !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 10px !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #eee;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
