@@ -8,6 +8,27 @@
   --color-gold: #fcc65bcc;
   --color-neon-gold: #fcc65b;
 }
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f3f3f3;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--gold-neon); /* your custom variable or hardcoded color */
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #e8a92d; /* darker version for hover */
+}
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -19,16 +40,19 @@
 .swiper-button-next,
 .swiper-button-prev {
   color: #333 !important;
-  background-color: #eee;
+  background-color: var(--gold-neon);
   padding: 20px !important;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   font-size: 10px !important;
 }
-
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 14px !important; /* You can go smaller if needed */
+}
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #eee;
+  background-color: var(--gold-neon);
 }
 
 @theme inline {
