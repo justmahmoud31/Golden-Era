@@ -1,0 +1,193 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import { useProducts } from "@/hooks/useProducts";
+import { useState } from "react";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import { BsCart } from "react-icons/bs";
+import { CiHeart } from "react-icons/ci";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Heart, ShieldCheck, Truck } from "lucide-react";
+
+export default function ProductDetailPage() {
+  const { id } = useParams();
+  const { data, isLoading, isError } = useProducts({ id });
+
+  const product = data?.products?.[0];
+  const [activeImage, setActiveImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  const imageBaseUrl = process.env.NEXT_PUBLIC_IMG_URL;
+
+  if (isLoading) {
+    return (
+      <div className="max-w-6xl mx-auto p-4 flex flex-col lg:flex-row gap-10">
+        <Skeleton className="w-full lg:w-1/2 h-[400px] rounded-xl" />
+        <div className="w-full lg:w-1/2 space-y-4">
+          <Skeleton className="h-6 w-2/3" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-1/2" />
+          <Skeleton className="h-10 w-40" />
+        </div>
+      </div>
+    );
+  }
+
+  if (isError || !product) {
+    return (
+      <p className="p-4 text-center text-red-500">Failed to load product.</p>
+    );
+  }
+
+  const {
+    name,
+    price,
+    description,
+    type,
+    rate,
+    stock,
+    category,
+    subCategory,
+    karat,
+    size,
+    cover_images = [],
+    images = [],
+  } = product;
+
+  const allImages = [...cover_images, ...images];
+
+  const handleQuantityChange = (e) => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val) && val > 0 && val <= stock) {
+      setQuantity(val);
+    }
+  };
+
+  return (
+    <div
+      className="max-w-6xl mx-auto p-4 flex flex-col lg:flex-row gap-10"
+      style={{ fontFamily: "var(--font-spectral)" }}
+    >
+      {/* Image Preview Section */}
+      <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-1/2">
+        {/* Thumbnails */}
+        <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto max-h-[400px]">
+          {allImages.map((img, index) => (
+            <img
+              key={index}
+              src={`${imageBaseUrl}${img}`}
+              alt={`Thumbnail ${index + 1}`}
+              onClick={() => setActiveImage(`${imageBaseUrl}${img}`)}
+              className={`w-20 h-20 object-cover rounded-lg border-2 cursor-pointer transition ${
+                activeImage === `${imageBaseUrl}${img}`
+                  ? "border-black"
+                  : "border-transparent"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Main Image with Zoom */}
+        <div className="flex-1 overflow-hidden relative group">
+          <img
+            src={activeImage || `${imageBaseUrl}${allImages[0]}`}
+            alt={name}
+            className="w-full h-[400px] object-cover rounded-xl shadow-md transform transition-transform duration-300 group-hover:scale-125"
+          />
+        </div>
+      </div>
+
+      {/* Product Details Section */}
+      <div className="w-full lg:w-1/2">
+        <h1 className="text-2xl font-bold mb-2">{name}</h1>
+        <p className="text-gray-600 mb-4">{description}</p>
+
+        <div className="flex items-center gap-1 text-yellow-400 mb-2">
+          {Array.from({ length: 5 }).map((_, i) =>
+            i < Math.round(rate) ? <FaStar key={i} /> : <FaRegStar key={i} />
+          )}
+          <span className="ml-2 text-sm text-gray-600">{stock} in stock</span>
+        </div>
+
+        <p className="text-lg font-semibold text-black mb-2">${price}</p>
+
+        <div className="mb-4 text-sm text-gray-700 space-y-1">
+          <p>
+            <strong>Category:</strong> {category?.name}
+          </p>
+          <p>
+            <strong>Subcategory:</strong> {subCategory?.name}
+          </p>
+          <p>
+            <strong>Type:</strong> {type}
+          </p>
+          <p>
+            <strong>Karat:</strong> {karat}
+          </p>
+          <p>
+            <strong>Size:</strong> {size}
+          </p>
+        </div>
+        {/* Quantity Control */}
+        <div className="flex items-center gap-4 mt-4">
+          <label htmlFor="quantity" className="text-sm font-medium">
+            Quantity:
+          </label>
+          <Input
+            id="quantity"
+            type="number"
+            value={quantity}
+            onChange={handleQuantityChange}
+            min={1}
+            max={stock}
+            className="w-20"
+          />
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-4 mt-6">
+          <Button className="flex items-center gap-2">
+            <BsCart /> Add {quantity} to Cart
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <CiHeart size={20} />Add to Wishlist
+          </Button>
+        </div>
+        {/* Benefits Section */}
+        <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-2 gap-2">
+          {[
+            {
+              icon: <Heart className="w-5 h-5 text-[#FFD700]" />, // Gold
+              label: "Your order donates to Palestine.",
+            },
+            {
+              icon: <ShieldCheck className="w-5 h-5 text-[#FFD700]" />,
+              label: "Lifetime Warranty on All Jewelry",
+            },
+            {
+              icon: <Heart className="w-5 h-5 text-[#FFD700]" />,
+              label: "Every Order Donates to Charity",
+            },
+            {
+              icon: <Truck className="w-5 h-5 text-[#FFD700]" />,
+              label: "Free US & Canada Returns",
+            },
+          ].map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-neon-gold  to-[#eee] text-blck shadow-md hover:shadow-lg transition duration-300"
+            >
+              <div className="bg-white rounded-full p-2 flex items-center justify-center">
+                {item.icon}
+              </div>
+              <p className="text-sm font-medium tracking-wide">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
