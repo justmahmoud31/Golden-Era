@@ -2,9 +2,12 @@
 
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useRouter } from 'next/navigation';
+import { useCategory } from '@/hooks/useCategory';
+import { useUser } from '@/hooks/useUser';
+import Cookies from 'js-cookie';
+import { toast } from 'react-hot-toast';
+
 import {
   FaBars,
   FaHeart,
@@ -12,13 +15,28 @@ import {
   FaShoppingBag,
   FaSearch,
 } from 'react-icons/fa';
-import { useCategory } from '@/hooks/useCategory';
+
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Navbar = () => {
   const { data, isLoading, isError } = useCategory();
   const [openCategory, setOpenCategory] = useState(null);
   const timeoutRef = useRef(null);
+  const user = useUser();
+  const router = useRouter();
 
   const handleMouseEnter = (id) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -33,6 +51,13 @@ const Navbar = () => {
     Array.from({ length: count }).map((_, i) => (
       <Skeleton key={i} className="h-4 w-32 rounded bg-gray-200" />
     ));
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    toast.success('Logged out');
+    router.push('/');
+    window.location.reload();
+  };
 
   return (
     <header className="w-full border-b bg-white shadow-sm">
@@ -57,7 +82,35 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-6 text-black text-lg">
           <FaHeart className="cursor-pointer" />
-          <FaUser className="cursor-pointer" />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <FaUser className="cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40 mt-2">
+              {user ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">My Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/orders">My Orders</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/auth/login" className='cursor-pointer'>Login</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/auth/register" className='cursor-pointer'>Signup</Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <FaShoppingBag className="cursor-pointer" />
         </div>
 
@@ -72,7 +125,7 @@ const Navbar = () => {
             <SheetContent side="left" className="w-[270px] p-4">
               <div className="flex flex-col space-y-4 mt-8">
                 <Link href="/" className="text-lg font-semibold">
-                  NOMINAL
+                  Golden Era
                 </Link>
 
                 {isLoading ? (

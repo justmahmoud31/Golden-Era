@@ -4,6 +4,7 @@ import Navbar from "@/components/Shared/navbar";
 import TopNav from "@/components/Shared/topNav";
 import GoldenEraFooter from "@/components/Shared/Footer";
 import Providers from "./provider";
+import { Toaster } from "react-hot-toast";
 
 const spectral = Spectral({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${spectral.variable}`}>
         <Providers>
+          <Toaster />
           <TopNav />
           <Navbar />
           {children}
