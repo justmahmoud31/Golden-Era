@@ -65,11 +65,11 @@ export default function CartItemCard({ item, imageBaseUrl,refetchCart  }) {
 
   return (
     <div className="flex items-center gap-6 border-b pb-4 hover:bg-gray-50 rounded-lg transition pr-2 relative group">
-      <div className="flex items-center gap-6 w-full">
+      <div className="flex items-center gap-6 w-full lg:flex-row flex-col lg:p-0 p-6">
         <img
           src={`${imageBaseUrl}${item.product.cover_images?.[0]}`}
           alt={item.product.name}
-          className="w-28 h-28 object-cover rounded-md shadow"
+          className="lg:w-28 lg:h-28 w-full object-cover rounded-md shadow"
         />
         <div className="flex-1">
           <Link  href={`/product/${item.product._id}`}>

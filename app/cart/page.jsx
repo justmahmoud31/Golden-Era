@@ -101,8 +101,8 @@ const handleDelete = async (e) => {
       className="max-w-6xl mx-auto p-6"
       style={{ fontFamily: "var(--font-spectral)" }}
     >
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold mb-8 flex items-center justify-center gap-1">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="lg:text-3xl text-xl font-bold  flex items-center justify-center gap-1">
           <IoCartOutline /> Your Shopping Cart
         </h1>
         <button onClick={handleDelete} className="bg-transparent border border-red-600 outline-none text-red-600 p-2 rounded-sm cursor-pointer flex items-center justify-center gap-1">
