@@ -125,9 +125,9 @@ const handleDelete = async (e) => {
           <p className="text-lg font-semibold">
             Total: <span className="text-black">${total.toFixed(2)}</span>
           </p>
-          <Button className="bg-black text-white hover:bg-gray-800 cursor-pointer">
+          <Link href={'/checkout'} className="bg-black text-white hover:bg-gray-800 p-2 rounded-md cursor-pointer">
             Proceed to Checkout
-          </Button>
+          </Link>
         </div>
       </div>
     </div>
