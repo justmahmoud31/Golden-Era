@@ -9,11 +9,12 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useProducts } from "@/hooks/useProducts";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function GenderFilter() {
   const [selectedGender, setSelectedGender] = useState("Women");
 
-  const categoryName = selectedGender.toLowerCase(); // women || men
+  const categoryName = selectedGender.toLowerCase(); 
   const { data, isLoading, isError } = useProducts({
     page: 1,
     limit: 10,
@@ -52,7 +53,15 @@ function GenderFilter() {
       {/* Swiper Slider */}
       <div className="relative min-h-[200px]">
         {isLoading ? (
-          <p className="text-center">Loading products...</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="space-y-4">
+                <Skeleton className="h-64 w-full rounded-xl" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
+          </div>
         ) : isError ? (
           <p className="text-center text-red-500">Failed to load products.</p>
         ) : products.length === 0 ? (

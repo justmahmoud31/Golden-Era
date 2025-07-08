@@ -10,14 +10,59 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, ShieldCheck, Truck } from "lucide-react";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+import axios from "axios";
+import api from "@/lib/api";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const { data, isLoading, isError } = useProducts({ id });
-
+  const user = useUser();
   const product = data?.products?.[0];
   const [activeImage, setActiveImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const handleAddToCart = async () => {
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
+
+    const token = Cookies.get("token");
+    if (!token) {
+      toast.error("Token missing, please login again.");
+      router.push("/auth/login");
+      return;
+    }
+
+    setIsAddingToCart(true);
+    const toastId = toast.loading("Adding to cart...");
+
+    try {
+      await api.post(
+        `cart`,
+        {
+          productId: product._id,
+          quantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Product added to cart!", { id: toastId });
+    } catch (error) {
+      toast.error("Failed to add to cart.", { id: toastId });
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
 
   const imageBaseUrl = process.env.NEXT_PUBLIC_IMG_URL;
 
@@ -149,11 +194,18 @@ export default function ProductDetailPage() {
 
         {/* Action Buttons */}
         <div className="flex gap-4 mt-6">
-          <Button className="flex items-center gap-2">
-            <BsCart /> Add {quantity} to Cart
+          <Button
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={handleAddToCart}
+            disabled={isAddingToCart}
+          >
+            <BsCart />
+            {isAddingToCart ? "Adding..." : `Add ${quantity} to Cart`}
           </Button>
+
           <Button variant="outline" className="flex items-center gap-2">
-            <CiHeart size={20} />Add to Wishlist
+            <CiHeart size={20} />
+            Add to Wishlist
           </Button>
         </div>
         {/* Benefits Section */}
