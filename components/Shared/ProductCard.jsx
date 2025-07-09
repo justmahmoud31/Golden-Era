@@ -1,7 +1,10 @@
+'use client';
+
 import React, { useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function ProductCard({
   name,
@@ -10,14 +13,17 @@ function ProductCard({
   isBestSeller,
   stars,
   price,
-  id
+  id,
 }) {
   const [hovered, setHovered] = useState(false);
   const currentImageIndex = hovered && coverImages.length > 1 ? 1 : 0;
+  const pathname = usePathname();
+
+  const isWishlistPage = pathname === "/wishlist";
 
   return (
     <Link
-        href={`/product/${id}`}
+      href={`/product/${id}`}
       style={{ fontFamily: "var(--font-spectral)" }}
       className="bg-white overflow-hidden group cursor-pointer transition-transform hover:scale-105"
       onMouseEnter={() => setHovered(true)}
@@ -48,9 +54,10 @@ function ProductCard({
             Best Seller
           </span>
         )}
-        <button className="absolute top-3 right-3 text-white font-semibold z-20">
-          <CiHeart size={25} />
-        </button>
+
+        <Link href={`/product/${id}`} className="absolute top-3 right-3 font-semibold z-20">
+          <CiHeart size={25} className={isWishlistPage ? "text-red-500" : "text-white"} />
+        </Link>
       </div>
 
       <div className="p-4">

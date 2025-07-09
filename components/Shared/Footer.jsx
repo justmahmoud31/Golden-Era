@@ -88,7 +88,7 @@ export default function GoldenEraFooter() {
 
       {/* Logo */}
       <div className="mt-12 text-center text-xl font-bold tracking-wide">
-        GOLDEN ERA
+        Turmusayacreations
       </div>
     </footer>
   );

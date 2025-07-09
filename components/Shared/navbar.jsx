@@ -7,7 +7,7 @@ import { useCategory } from "@/hooks/useCategory";
 import { useUser } from "@/hooks/useUser";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
-
+import logo from '@/public/Elogo.jpeg';
 import {
   FaBars,
   FaHeart,
@@ -68,7 +68,10 @@ const Navbar = () => {
         style={{ fontFamily: "var(--font-spectral)" }}
       >
         <Link href="/" className="text-2xl font-semibold tracking-widest">
-          Golden Era
+          <img 
+          src={logo.src}
+          className="h-20 mt-4"
+          />
         </Link>
 
         <div className="hidden md:flex w-full max-w-xl mx-8">
@@ -82,7 +85,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center space-x-6 text-black text-lg">
-          <FaHeart className="cursor-pointer" />
+         <Link href={'/wishlist'}> <FaHeart className="cursor-pointer" /></Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center justify-center gap-1">
