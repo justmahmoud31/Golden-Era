@@ -43,13 +43,13 @@ function Hero() {
               <p className="text-sm">We are here around the clock for you</p>
             </div>
           </div>
-          {/* <div className="flex items-center gap-4 bg-white/20 backdrop-blur-lg p-5 rounded-lg shadow-md text-left text-white max-w-xs">
+          <div className="flex items-center gap-4 bg-white/20 backdrop-blur-lg p-5 rounded-lg shadow-md text-left text-white max-w-xs">
             <FaUndoAlt className="text-3xl" />
             <div>
-              <h4 className="text-lg font-bold">100-Day Guarantee</h4>
-              <p className="text-sm">Money back, no questions asked</p>
+              <h4 className="text-lg font-bold">Shipping Nationwide</h4>
+              <p className="text-sm">Your product got shipped for you</p>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </section>
