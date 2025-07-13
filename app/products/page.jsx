@@ -1,17 +1,14 @@
 'use client';
-
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { useProducts } from '@/hooks/useProducts';
 import { useCategory } from '@/hooks/useCategory';
 import ProductCard from '@/components/Shared/ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-
 export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const [categoryId, setCategoryId] = useState('');
   const [subcategoryId, setSubcategoryId] = useState('');
-
   const { data: categoryData } = useCategory();
   const { data, isLoading, isError } = useProducts({
     page,
@@ -31,8 +28,6 @@ export default function ProductsPage() {
       >
         ✨ Discover Our Golden Collection ✨
       </h1>
-
-      {/* Filters */}
       <div className="flex flex-wrap justify-center gap-4 mb-12">
         <select
           className="px-4 py-2 rounded-full bg-white border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300"

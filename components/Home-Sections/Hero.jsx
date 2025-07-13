@@ -21,9 +21,9 @@ function Hero() {
       {/* Content */}
       <div style={{ fontFamily: "var(--font-spectral)" }} className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 text-center">
         <div className="backdrop-blur-md bg-white/10 p-8 rounded-xl shadow-xl max-w-2xl">
-          <h2 className="lg:text-5xl text-2xl font-bold mb-4 tracking-wide">Golden Era</h2>
+          <h2 className="lg:text-5xl text-2xl font-bold mb-4 tracking-wide">Turmusaya jewellery</h2>
           <p className="lg:text-lg mb-6 font-medium">
-            Magical pieces that take you to another golden era
+             Largest collection of Middle Eastern Gold in the USA
           </p>
           <Link
             href="/products"
@@ -43,14 +43,13 @@ function Hero() {
               <p className="text-sm">We are here around the clock for you</p>
             </div>
           </div>
-          {/* 100-Day Guarantee Card */}
-          <div className="flex items-center gap-4 bg-white/20 backdrop-blur-lg p-5 rounded-lg shadow-md text-left text-white max-w-xs">
+          {/* <div className="flex items-center gap-4 bg-white/20 backdrop-blur-lg p-5 rounded-lg shadow-md text-left text-white max-w-xs">
             <FaUndoAlt className="text-3xl" />
             <div>
               <h4 className="text-lg font-bold">100-Day Guarantee</h4>
               <p className="text-sm">Money back, no questions asked</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

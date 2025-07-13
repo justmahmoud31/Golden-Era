@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 function HomeCategoryCard({ title, imageUrl }) {
   return (
-    <div className="group relative w-full h-72 overflow-hidden border shadow-md cursor-pointer">
+    <Link href={`/category/${title}`} className="group relative w-full h-72 overflow-hidden border shadow-md cursor-pointer">
       {/* Background image */}
       <Image
         src={imageUrl}
@@ -20,7 +21,7 @@ function HomeCategoryCard({ title, imageUrl }) {
           {title}
         </h3>
       </div>
-    </div>
+    </Link>
   );
 }
 

@@ -8,9 +8,10 @@ export const useProducts = ({
   subcategory,
   limit,
   categoryName,
+  subcategoryName
 } = {}) => {
   return useQuery({
-    queryKey: ['products', { id, page, category, subcategory, limit, categoryName }],
+    queryKey: ['products', { id, page, category, subcategory, limit, categoryName,subcategoryName }],
     queryFn: async () => {
       const params = new URLSearchParams();
 
@@ -20,6 +21,7 @@ export const useProducts = ({
       if (subcategory) params.append('subCategory', subcategory);
       if (limit) params.append('limit', limit);
       if (categoryName) params.append('categoryName', categoryName);
+      if (subcategoryName) params.append('subcategoryName', subcategoryName);
 
       const response = await api.get(`/product?${params.toString()}`);
       return response.data;

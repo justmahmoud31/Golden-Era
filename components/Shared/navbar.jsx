@@ -70,7 +70,7 @@ const Navbar = () => {
         <Link href="/" className="text-2xl font-semibold tracking-widest">
           <img 
           src={logo.src}
-          className="h-20 mt-4"
+          className="h-24 mt-4"
           />
         </Link>
 

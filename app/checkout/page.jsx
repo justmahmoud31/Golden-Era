@@ -8,7 +8,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { FaMapMarkerAlt, FaBoxOpen, FaCreditCard } from "react-icons/fa";
 import Cookies from "js-cookie";
-import Image from "next/image";
 
 export default function CheckoutPage() {
   const user = useUser();
@@ -16,6 +15,10 @@ export default function CheckoutPage() {
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
+  const [useCustomAddress, setUseCustomAddress] = useState(false);
+  const [customAddress, setCustomAddress] = useState("");
+  const [userName, setUserName] = useState(user?.firstName || "");
+  const [language, setLanguage] = useState("English");
 
   useEffect(() => {
     if (user === null) {
@@ -46,20 +49,30 @@ export default function CheckoutPage() {
       setProcessing(true);
       const token = Cookies.get("token");
 
-      // 1. Create the order
-      const orderRes = await api.post(
-        "/order",
-        { addressIndex: 0 },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      let orderPayload;
+
+      if (useCustomAddress && customAddress.trim() !== "") {
+        orderPayload = {
+          address: customAddress.trim(),
+          userName,
+          language,
+        };
+      } else {
+        orderPayload = {
+          addressIndex: 0,
+          userName,
+          language,
+        };
+      }
+
+      const orderRes = await api.post("/order", orderPayload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const orderId = orderRes.data._id;
 
-      // 2. Get Stripe checkout URL
       const sessionRes = await api.post(
         "/payment/create-checkout-session",
         { orderId },
@@ -70,7 +83,6 @@ export default function CheckoutPage() {
         }
       );
 
-      // 3. Redirect to Stripe
       if (sessionRes.data.url) {
         window.location.href = sessionRes.data.url;
       } else {
@@ -161,9 +173,59 @@ export default function CheckoutPage() {
 
         {/* Total */}
         <div className="text-right border-t pt-4">
-          <p className="text-xl font-bold">
-            Total: ${cart.total.toFixed(2)}
-          </p>
+          <p className="text-xl font-bold">Total: ${cart.total.toFixed(2)}</p>
+        </div>
+        {/* Address Option Toggle */}
+        <div className="space-y-4">
+          <p className="font-semibold">Select Shipping Method:</p>
+          <div className="flex gap-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                checked={!useCustomAddress}
+                onChange={() => setUseCustomAddress(false)}
+              />
+              Use saved address
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                checked={useCustomAddress}
+                onChange={() => setUseCustomAddress(true)}
+              />
+              Enter new address
+            </label>
+          </div>
+
+          {useCustomAddress && (
+            <input
+              type="text"
+              placeholder="Enter new address (e.g. Cairo, Nasr City)"
+              value={customAddress}
+              onChange={(e) => setCustomAddress(e.target.value)}
+              className="w-full mt-2 border rounded px-4 py-2"
+            />
+          )}
+        </div>
+
+        {/* Optional fields */}
+        <div className="grid grid-cols-2 gap-4 mt-6">
+          <input
+            type="text"
+            placeholder="The name you want to write (on Nicklace and so on..)"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          />
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          >
+            <option value="English">English</option>
+            <option value="Arabic">Arabic</option>
+            <option value="French">French</option>
+          </select>
         </div>
 
         {/* Checkout Button */}

@@ -1,21 +1,19 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useProducts } from "@/hooks/useProducts";
+import { useUser } from "@/hooks/useUser";
+import api from "@/lib/api";
+import Cookies from "js-cookie";
+import { Heart, ShieldCheck, Truck } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import toast from "react-hot-toast";
 import { BsCart } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Heart, ShieldCheck, Truck } from "lucide-react";
-import { useUser } from "@/hooks/useUser";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import Cookies from "js-cookie";
-import axios from "axios";
-import api from "@/lib/api";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
