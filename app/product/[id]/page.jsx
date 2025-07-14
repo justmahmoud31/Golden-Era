@@ -22,6 +22,8 @@ export default function ProductDetailPage() {
   const product = data?.products?.[0];
   const [activeImage, setActiveImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [userName, setUserName] = useState("");
+  const [language, setLanguage] = useState("arabic");
   const router = useRouter();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const handleAddToCart = async () => {
@@ -41,18 +43,21 @@ export default function ProductDetailPage() {
     const toastId = toast.loading("Adding to cart...");
 
     try {
-      await api.post(
-        `cart`,
-        {
-          productId: product._id,
-          quantity,
+      const body = {
+        productId: product._id,
+        quantity,
+      };
+
+      if (userName.trim() !== "" && language.trim() !== "") {
+        body.userName = userName.trim();
+        body.language = language;
+      }
+
+      await api.post(`cart`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      });
 
       toast.success("Product added to cart!", { id: toastId });
     } catch (error) {
@@ -98,6 +103,8 @@ export default function ProductDetailPage() {
     size,
     cover_images = [],
     images = [],
+    defaultPrice,
+    hasName,
   } = product;
 
   const allImages = [...cover_images, ...images];
@@ -155,7 +162,9 @@ export default function ProductDetailPage() {
           <span className="ml-2 text-sm text-gray-600">{stock} in stock</span>
         </div>
 
-        <p className="text-lg font-semibold text-black mb-2">${price}</p>
+        <p className="text-lg font-semibold text-black mb-2">
+          ${price == 0 ? defaultPrice : price}
+        </p>
 
         <div className="mb-4 text-sm text-gray-700 space-y-1">
           <p>
@@ -167,10 +176,10 @@ export default function ProductDetailPage() {
           <p>
             <strong>Type:</strong> {type}
           </p>
-          <p>
+          <p className={!karat ? "hidden" : "block"}>
             <strong>Karat:</strong> {karat}
           </p>
-          <p>
+          <p className={!size ? "hidden" : "block"}>
             <strong>Size:</strong> {size}
           </p>
         </div>
@@ -189,6 +198,46 @@ export default function ProductDetailPage() {
             className="w-20"
           />
         </div>
+        {hasName ? (
+          <div className="flex flex-col my-2 gap-4 w-full">
+            {/* User Name Input */}
+            <div className="flex flex-col w-full">
+              <label htmlFor="userName" className="mb-1 font-medium">
+                Name
+              </label>
+              <input
+                id="userName"
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="border p-2 rounded-md"
+                placeholder="The name to write on the piece"
+              />
+            </div>
+
+            {/* Language Selection as Buttons */}
+            <div className="flex flex-col w-full">
+              <label className="mb-1 font-medium">Language</label>
+              <div className="flex gap-2">
+                {["arabic", "english"].map((lang) => (
+                  <button
+                    key={lang}
+                    type="button"
+                    onClick={() => setLanguage(lang)}
+                    className={`px-4 py-2 rounded-md  text-sm transition cursor-pointer
+              ${
+                language === lang
+                  ? "bg-neon-gold text-white"
+                  : "bg-white text-black  hover:bg-gray-100"
+              }`}
+                  >
+                    {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         {/* Action Buttons */}
         <div className="flex gap-4 mt-6">

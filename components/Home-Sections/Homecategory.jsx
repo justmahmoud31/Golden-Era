@@ -32,7 +32,7 @@ const categories = [
 function Homecategory() {
   return (
     <div>
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6 lg:px-8 px-6 gap-4 my-12">
         {categories.map((category, index) => (
           <HomeCategoryCard
             key={index}

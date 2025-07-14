@@ -35,7 +35,7 @@ function WhyUs() {
             <img
               src={item.image}
               alt={item.title}
-              className="h-[600px] w-full object-cover"
+              className="h-[400px] w-full object-cover"
             />
 
             <div

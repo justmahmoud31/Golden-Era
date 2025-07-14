@@ -9,7 +9,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
-export default function CartItemCard({ item, imageBaseUrl,refetchCart  }) {
+export default function CartItemCard({ item, imageBaseUrl, refetchCart }) {
   const router = useRouter();
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -56,7 +56,7 @@ export default function CartItemCard({ item, imageBaseUrl,refetchCart  }) {
       });
 
       toast.success("Item removed", { id: toastId });
-       await refetchCart();
+      await refetchCart();
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("Failed to remove item", { id: toastId });
@@ -72,7 +72,7 @@ export default function CartItemCard({ item, imageBaseUrl,refetchCart  }) {
           className="lg:w-28 lg:h-32 w-full object-cover rounded-md shadow"
         />
         <div className="flex-1">
-          <Link  href={`/product/${item.product._id}`}>
+          <Link href={`/product/${item.product._id}`}>
             {" "}
             <h2 className="text-lg font-semibold">{item.product.name}</h2>
           </Link>
@@ -80,9 +80,16 @@ export default function CartItemCard({ item, imageBaseUrl,refetchCart  }) {
             {item.product.description}
           </p>
           <p className="text-gray-700 mt-1">
-            ${item.product.price.toFixed(2)} x {item.quantity} ={" "}
+            {`$${(item.product.price === 0
+              ? item.product.defaultPrice
+              : item.product.price
+            ).toFixed(2)} x ${item.quantity} = `}
             <span className="font-medium">
-              ${(item.product.price * item.quantity).toFixed(2)}
+              {`$${(
+                (item.product.price === 0
+                  ? item.product.defaultPrice
+                  : item.product.price) * item.quantity
+              ).toFixed(2)}`}
             </span>
           </p>
         </div>

@@ -1,14 +1,14 @@
-'use client';
-import React, { useState } from 'react'
-import { useProducts } from '@/hooks/useProducts';
-import { useCategory } from '@/hooks/useCategory';
-import ProductCard from '@/components/Shared/ProductCard';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
+"use client";
+import React, { useState } from "react";
+import { useProducts } from "@/hooks/useProducts";
+import { useCategory } from "@/hooks/useCategory";
+import ProductCard from "@/components/Shared/ProductCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 export default function ProductsPage() {
   const [page, setPage] = useState(1);
-  const [categoryId, setCategoryId] = useState('');
-  const [subcategoryId, setSubcategoryId] = useState('');
+  const [categoryId, setCategoryId] = useState("");
+  const [subcategoryId, setSubcategoryId] = useState("");
   const { data: categoryData } = useCategory();
   const { data, isLoading, isError } = useProducts({
     page,
@@ -24,7 +24,7 @@ export default function ProductsPage() {
     <div className="p-6 md:p-12 bg-gradient-to-b from-[#fef9f5] to-[#fff] min-h-screen">
       <h1
         className="text-center text-xl md:text-5xl font-extrabold mb-12 bg-gradient-to-r from-yellow-500 via-amber-600 to-orange-500 bg-clip-text text-transparent"
-        style={{ fontFamily: 'var(--font-spectral)' }}
+        style={{ fontFamily: "var(--font-spectral)" }}
       >
         ✨ Discover Our Golden Collection ✨
       </h1>
@@ -34,7 +34,7 @@ export default function ProductsPage() {
           value={categoryId}
           onChange={(e) => {
             setCategoryId(e.target.value);
-            setSubcategoryId('');
+            setSubcategoryId("");
             setPage(1);
           }}
         >
@@ -75,7 +75,9 @@ export default function ProductsPage() {
       ) : isError || !data?.products?.length ? (
         <div className="text-center mt-16 text-gray-500">
           <h2 className="text-xl font-medium">No products found 😕</h2>
-          <p className="text-sm mt-1">Try selecting a different category or subcategory.</p>
+          <p className="text-sm mt-1">
+            Try selecting a different category or subcategory.
+          </p>
         </div>
       ) : (
         <>
@@ -85,7 +87,9 @@ export default function ProductsPage() {
                 key={product._id}
                 id={product._id}
                 name={product.name}
-                price={product.price}
+                price={
+                  product.price == 0 ? product.defaultPrice : product.price
+                }
                 coverImages={product.cover_images}
                 stars={Math.round(product.rate)}
                 reviews={product.reviews?.length || 12}

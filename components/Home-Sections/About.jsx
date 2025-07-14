@@ -6,7 +6,7 @@ function About() {
       className="flex flex-col-reverse lg:flex-row bg-[#f7f6ef] lg:p-0 pt-4 gap-8"
       style={{ fontFamily: "var(--font-spectral)" }}
     >
-      <div className="lg:w-1/2 w-full">
+      <div className="lg:w-1/2 w-full ">
       <img
         src="https://images.pexels.com/photos/256643/pexels-photo-256643.jpeg"
         className="w-full"

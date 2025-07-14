@@ -86,7 +86,7 @@ function GenderFilter() {
                   coverImages={product.cover_images || []}
                   isBestSeller={product.isFeatured}
                   stars={product.rate || 4}
-                  price={product.price}
+                  price={product.price == 0 ? product.defaultPrice : product.price}
                   id={product._id}
                 />
               </SwiperSlide>

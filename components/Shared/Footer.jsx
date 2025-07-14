@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 
 export default function GoldenEraFooter() {
@@ -11,7 +12,7 @@ export default function GoldenEraFooter() {
             The Brand
           </h4>
           <ul className="space-y-2">
-            <li>About Us</li>
+            <li><Link href={'/about-us'}>About Us</Link></li>
             <li>Earn Rewards</li>
             <li>Deed of the Month</li>
             <li>Lifetime Warranty</li>
@@ -22,21 +23,7 @@ export default function GoldenEraFooter() {
           </ul>
         </div>
 
-        {/* Column 2 */}
-        <div>
-          <h4 className="font-semibold uppercase tracking-wide mb-3">
-            Gift Guide
-          </h4>
-          <ul className="space-y-2">
-            <li>For Her | Top Gifts of 2025</li>
-            <li>Above $100</li>
-            <li>Below $100</li>
-            <li>For Him | Top Gifts of 2025</li>
-            <li>Above $100</li>
-            <li>Below $100</li>
-            <li>Don't Know? → Gift Card</li>
-          </ul>
-        </div>
+
 
         {/* Column 3 */}
         <div>

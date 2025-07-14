@@ -57,14 +57,7 @@ export default function CheckoutPage() {
           userName,
           language,
         };
-      } else {
-        orderPayload = {
-          addressIndex: 0,
-          userName,
-          language,
-        };
-      }
-
+      } 
       const orderRes = await api.post("/order", orderPayload, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -122,7 +115,7 @@ export default function CheckoutPage() {
 
       <div className="bg-white border shadow-md rounded-lg p-6 space-y-6">
         {/* Address */}
-        <div className="flex gap-3 items-start">
+        {/* <div className="flex gap-3 items-start">
           <FaMapMarkerAlt className="text-main mt-1" />
           <div>
             <p className="font-semibold mb-1">Shipping Address</p>
@@ -134,7 +127,7 @@ export default function CheckoutPage() {
               <p className="text-red-500">No address found.</p>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Cart Items */}
         <div>
@@ -175,29 +168,22 @@ export default function CheckoutPage() {
         <div className="text-right border-t pt-4">
           <p className="text-xl font-bold">Total: ${cart.total.toFixed(2)}</p>
         </div>
-        {/* Address Option Toggle */}
+        
         <div className="space-y-4">
           <p className="font-semibold">Select Shipping Method:</p>
           <div className="flex gap-6">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                checked={!useCustomAddress}
-                onChange={() => setUseCustomAddress(false)}
-              />
-              Use saved address
-            </label>
+           
             <label className="flex items-center gap-2">
               <input
                 type="radio"
                 checked={useCustomAddress}
                 onChange={() => setUseCustomAddress(true)}
               />
-              Enter new address
+              Enter address
             </label>
           </div>
 
-          {useCustomAddress && (
+         
             <input
               type="text"
               placeholder="Enter new address (e.g. Cairo, Nasr City)"
@@ -205,28 +191,10 @@ export default function CheckoutPage() {
               onChange={(e) => setCustomAddress(e.target.value)}
               className="w-full mt-2 border rounded px-4 py-2"
             />
-          )}
+         
         </div>
 
-        {/* Optional fields */}
-        <div className="grid grid-cols-2 gap-4 mt-6">
-          <input
-            type="text"
-            placeholder="The name you want to write (on Nicklace and so on..)"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            className="w-full border rounded px-4 py-2"
-          />
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="w-full border rounded px-4 py-2"
-          >
-            <option value="English">English</option>
-            <option value="Arabic">Arabic</option>
-            <option value="French">French</option>
-          </select>
-        </div>
+      
 
         {/* Checkout Button */}
         <div className="flex justify-end">
