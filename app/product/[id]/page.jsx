@@ -1,5 +1,6 @@
 "use client";
 
+import ProductReviewCard from "@/components/product_components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -117,6 +118,8 @@ export default function ProductDetailPage() {
   };
 
   return (
+    <>
+    
     <div
       className="max-w-6xl mx-auto p-4 flex flex-col lg:flex-row gap-10"
       style={{ fontFamily: "var(--font-spectral)" }}
@@ -288,5 +291,7 @@ export default function ProductDetailPage() {
         </div>
       </div>
     </div>
+    <ProductReviewCard id={id}/>
+    </>
   );
 }

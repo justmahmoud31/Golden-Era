@@ -194,8 +194,6 @@ export default function CheckoutPage() {
          
         </div>
 
-      
-
         {/* Checkout Button */}
         <div className="flex justify-end">
           <Button
