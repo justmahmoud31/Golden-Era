@@ -1,6 +1,22 @@
 # golden-era
 
-## 📦 Technologies Used
+![Node Version](https://img.shields.io/badge/node-v22.7.0-green)
+![License](https://img.shields.io/badge/license-UNLICENSED-blue)
+![Updated](https://img.shields.io/badge/last_updated-2025-07-23-orange)
+
+> Client E-Commerce App For Selling Golden Accerrories
+
+
+
+## 🔧 Frameworks / Tools Detected
+- React
+- Next.js
+
+## ⚙️ Config Files
+- .env
+- .gitignore
+
+## 📦 Dependencies
 - @radix-ui/react-dialog
 - @radix-ui/react-dropdown-menu
 - @radix-ui/react-label
@@ -23,6 +39,8 @@
 - react-icons
 - swiper
 - tailwind-merge
+
+## 🧪 Dev Dependencies
 - @eslint/eslintrc
 - @tailwindcss/postcss
 - eslint
@@ -122,13 +140,13 @@
 ```
 
 ## 📜 Scripts
-- `dev`: next dev --turbopack
-- `build`: next build
-- `start`: next start
-- `lint`: next lint
+- `dev`: next dev --turbopack → Start the app in development mode
+- `build`: next build → Build the app for production
+- `start`: next start → Start the production server
+- `lint`: next lint → Lint the codebase
 
 ## 👤 Author
-- Unknown
+- JustMahmoud
 
 ## 📝 License
 - UNLICENSED
